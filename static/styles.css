@@ -1,0 +1,85 @@
+/* Reset básico del body con fondo suave y padding general */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: aliceblue;
+    padding: 40px;
+}
+
+/* Tarjeta central donde vive el formulario */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: left;
+    color: #333;
+}
+
+/* Cada label ocupa su propia línea y aparece en negrita */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Inputs y textarea comparten el mismo ancho y estilo base */
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* El textarea no es redimensionable para mantener el layout estable */
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Botón de envío azul que ocupa todo el ancho del formulario */
+button {
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* La alerta está oculta por defecto; JS la muestra según el resultado */
+.alerta {
+    display: none;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Verde para éxito */
+.alerta.exito {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Rojo para error */
+.alerta.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}

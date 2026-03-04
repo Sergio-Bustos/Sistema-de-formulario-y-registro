@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- Formulario de registro de contactos. Envía los datos al servidor Flask
+     de forma asíncrona con fetch, sin recargar la página. Versión 2.0 -->
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Contacto</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Registro de Contacto</h2>
+
+        <!-- El envío lo maneja fetch desde JS, así que action no hace falta aquí -->
+        <form id="formContacto">
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+
+            <label for="correo">Correo:</label>
+            <input type="email" id="correo" name="correo" required>
+
+            <!-- El mensaje es el único campo opcional del formulario -->
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje..."></textarea>
+
+            <button type="submit">Registrar</button>
+
+        </form>
+
+        <!-- Acá aparece el mensaje de éxito o error después de enviar -->
+        <div id="alerta" class="alerta"></div>
+
+    </div>
+
+
+    <script>
+
+        const form   = document.getElementById('formContacto');
+        const alerta = document.getElementById('alerta');
+
+        // Muestra un mensaje de resultado y lo oculta solo después de 5 segundos
+        function mostrarAlerta(mensaje, esExito) {
+            alerta.textContent   = mensaje;
+            alerta.className     = 'alerta ' + (esExito ? 'exito' : 'error');
+            alerta.style.display = 'block';
+
+            setTimeout(() => { alerta.style.display = 'none'; }, 5000);
+        }
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault(); // Cortamos el comportamiento nativo para no recargar
+
+            // Recogemos los valores de cada campo y les quitamos espacios sobrantes
+            const datos = {
+                nombre:    document.getElementById('nombre').value.trim(),
+                apellido:  document.getElementById('apellido').value.trim(),
+                direccion: document.getElementById('direccion').value.trim(),
+                telefono:  document.getElementById('telefono').value.trim(),
+                correo:    document.getElementById('correo').value.trim(),
+                mensaje:   document.getElementById('mensaje').value.trim()
+            };
+
+            try {
+                // Mandamos el objeto como JSON al endpoint /formulario del servidor
+                const respuesta = await fetch('/formulario', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(datos)
+                });
+
+                const resultado = await respuesta.json();
+
+                if (respuesta.ok) {
+                    // 201: el servidor confirmó que el contacto fue guardado
+                    mostrarAlerta('✔ ' + resultado.mensaje, true);
+                    form.reset();
+                } else {
+                    // 400 o 500: el servidor nos dijo qué salió mal
+                    mostrarAlerta('✖ ' + resultado.error, false);
+                }
+
+            } catch (error) {
+                // Solo llegamos acá si hay un problema de red o el servidor no responde
+                console.error('[ERROR] Fallo en la solicitud fetch:', error);
+                mostrarAlerta('✖ Error de conexión con el servidor', false);
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
