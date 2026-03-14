@@ -100,7 +100,7 @@ CREATE TABLE contactos (
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/registro-contacto.git
+git clone https://github.com/Sergio-Bustos/Sistema-de-formulario-y-registro
 cd registro-contacto
 ```
 
@@ -134,7 +134,7 @@ Abre `app.py` y ajusta las credenciales de conexión:
 ```python
 DB_CONFIG = {
     'host':     'localhost',
-    'database': 'diseño',     # ← nombre de tu base de datos
+    'database': 'diseño',     # ← nombre de base de datos
     'user':     'postgres',   # ← tu usuario
     'password': '123456',     # ← tu contraseña
     'port':     5432
